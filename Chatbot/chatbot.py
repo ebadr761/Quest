@@ -39,7 +39,7 @@ with st.expander("➕ Add New Data"):
         price = st.number_input("Price (USD)", min_value=0)
         submitted = st.form_submit_button("Add Entry")
 
-    if submitted:
+    if submitted: # Add new data to the DataFrame and save it (this happens only if the user manually adds a new entry)
         new_row = pd.DataFrame([[brand, model, range_km, price]], columns=data.columns)
         data = pd.concat([data, new_row], ignore_index=True)
         save_excel(data)
