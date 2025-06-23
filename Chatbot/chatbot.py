@@ -1,10 +1,10 @@
 import pandas as pd
 import streamlit as st
 import os
-import google.generativeai as genai
+import google.generativeai as genai # Using gemini
 
 # --- SETUP ---
-GOOGLE_API_KEY = "AIzaSyCpJV2O1YgxH7mPQISRViRhAePHGRcisvI"  # Your Google API key
+GOOGLE_API_KEY = "AIzaSyCpJV2O1YgxH7mPQISRViRhAePHGRcisvI"  # Ebad Google API key
 genai.configure(api_key=GOOGLE_API_KEY)
 
 EXCEL_FILE = "electric_cars.xlsx"
