@@ -40,10 +40,21 @@ with st.expander("➕ Add New Data"):
         submitted = st.form_submit_button("Add Entry")
 
     if submitted: # Add new data to the DataFrame and save it (this happens only if the user manually adds a new entry)
-        new_row = pd.DataFrame([[brand, model, range_km, price]], columns=data.columns)
-        data = pd.concat([data, new_row], ignore_index=True)
-        save_excel(data)
-        st.success("✅ Data added successfully!")
+
+        match_idx = data[data["Model"].str.lower() == model.strip().lower()].index #check if model already exists
+
+        if not match_idx.empty:
+            #update existing entry
+            data.at[match_idx[0], "Brand"] = brand
+            data.at[match_idx[0], "Range (km)"] = range_km
+            data.at[match_idx[0], "Price (USD)"] = price
+            st.info("✅ Existing entry updated!") # tells user that existing entry UPDATED
+
+        else:
+            new_row = pd.DataFrame([[brand, model, range_km, price]], columns=data.columns)
+            data = pd.concat([data, new_row], ignore_index=True)
+            save_excel(data)
+            st.success("✅ Data added successfully!") # tells user that new entry ADDED
 
 # --- CHAT INTERFACE ---
 st.subheader("💬 Ask a Question About the Data")
