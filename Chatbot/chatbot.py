@@ -80,3 +80,18 @@ Answer in a clear and friendly tone.
 # --- DATA VIEW ---
 with st.expander("📊 View Data"):
     st.dataframe(data)
+
+# --- DELETE ENTRY UI --- # USING THIS INSTEAD OF GIVING THE CHATBOT THE ABILITY TO DELETE ENTRIES for now...
+with st.expander("❌ Remove a Car by Model"):
+    with st.form("delete_form"):
+        delete_model = st.text_input("Enter the exact model name to delete")
+        delete_submit = st.form_submit_button("Delete Entry")
+
+    if delete_submit:
+        match_idx = data[data["Model"].str.lower() == delete_model.strip().lower()].index
+        if not match_idx.empty:
+            data = data.drop(index=match_idx).reset_index(drop=True)
+            save_excel(data)
+            st.success(f"✅ Deleted '{delete_model}' from the dataset.")
+        else:
+            st.warning(f"⚠️ Model '{delete_model}' not found.")
