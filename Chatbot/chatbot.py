@@ -81,7 +81,7 @@ Answer in a clear and friendly tone.
 with st.expander("📊 View Data"):
     st.dataframe(data)
 
-# --- DELETE ENTRY UI --- # USING THIS INSTEAD OF GIVING THE CHATBOT THE ABILITY TO DELETE ENTRIES for now...
+# --- DELETE ENTRY UI ---
 with st.expander("❌ Remove a Car by Model"):
     with st.form("delete_form"):
         delete_model = st.text_input("Enter the exact model name to delete")
