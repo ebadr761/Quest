@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 import os
 import google.generativeai as genai # Using gemini
+import plotly.express as px # for the chart (price vs range if the user wants to visualize the data)
 
 # --- SETUP ---
 GOOGLE_API_KEY = "AIzaSyCpJV2O1YgxH7mPQISRViRhAePHGRcisvI"  # Ebad Google API key
@@ -60,22 +61,55 @@ with st.expander("➕ Add New Data"):
 st.subheader("💬 Ask a Question About the Data")
 user_query = st.text_input("Your question:")
 
+show_chart = False
+
 if user_query:
-    prompt = f"""
-You are a helpful assistant. Use the table of electric car data below to answer the user's question.
+    #STEP 1: Check if the user wants to visualize the data <---- ADDITIONAL FEATURE ADDED
+    chart_check_prompt = f"""
+    The user asked: \"{user_query}\"
 
-Data:
-{data.to_string(index=False)}
-
-User's question: {user_query}
-Answer in a clear and friendly tone.
-"""
+    Based on this, would it be helpful to show a chart comparing car price vs. range?
+    Answer only with \"yes\" or \"no\".
+    """
     try:
-        model = genai.GenerativeModel("models/gemini-1.5-flash")
-        response = model.generate_content(prompt)
-        st.markdown(f"**Answer:** {response.text}")
-    except Exception as e:
-        st.error(f"Error generating response: {e}")
+        chart_model = genai.GenerativeModel("models/gemini-1.5-flash")     #Letting gemini decide if chart is needed
+        chart_response = chart_model.generate_content(chart_check_prompt)
+        show_chart = chart_response.text.strip().lower().startswith("yes")
+        if show_chart:
+            st.markdown("📊 Showing chart as requested...")
+    except:
+        show_chart = False
+
+        # STEP 2: Generate a response using Gemini AI
+        prompt = f"""
+    You are a helpful assistant. Use the table of electric car data below to answer the user's question.
+
+    Data:
+    {data.to_string(index=False)}
+
+    User's question: {user_query}
+    Answer in a clear and friendly tone.
+    """
+        try:
+            model = genai.GenerativeModel("models/gemini-1.5-flash")
+            response = model.generate_content(prompt)
+            st.markdown(f"**Answer:** {response.text}")
+        except Exception as e:
+            st.error(f"Error generating response: {e}")
+
+# --- CONDITIONAL VISUALIZATION ---
+if show_chart and not data.empty:
+    fig = px.scatter(
+        data,
+        x="Range (km)",
+        y="Price (USD)",
+        text="Model",
+        hover_data=["Brand", "Model", "Range (km)", "Price (USD)"],
+        title="Electric Car Range vs Price",
+    )
+    fig.update_traces(textposition='top center')
+    fig.update_layout(height=600)
+    st.plotly_chart(fig, use_container_width=True)
 
 # --- DATA VIEW ---
 with st.expander("📊 View Data"):
