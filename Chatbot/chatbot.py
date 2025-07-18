@@ -80,7 +80,7 @@ if user_query:
     except:
         show_chart = False
 
-        # STEP 2: Generate a response using Gemini AI
+        # STEP 2: Generate a response using Gemini AI (only happens if chart isn't shown)
         prompt = f"""
     You are a helpful assistant. Use the table of electric car data below to answer the user's question.
 
