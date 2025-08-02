@@ -4,8 +4,8 @@ This project showcases a simple automation workflow built using [n8n]([https://n
 
 The workflow takes a natural language question from the user—such as _“Do I need an umbrella in downtown Calgary?”_—and performs the following:
 
-1. Fetches live weather data from a public API (`wttr.in`)
-2. Sends the weather data and original question to an LLM (e.g., OpenAI or a simulated Function node)
+1. Fetches live weather data from a public API
+2. Sends the weather data and original question to an LLM (gemini)
 3. Returns a smart, human-readable answer with reasoning
 
 The focus of this automation is to demonstrate how **API integration** and **AI-powered responses** can be combined in low-code workflows using n8n.
@@ -15,8 +15,8 @@ The focus of this automation is to demonstrate how **API integration** and **AI-
 **Tech Stack**:  
 - n8n (automation platform)  
 - HTTP Request node  
-- Function node or OpenAI integration  
-- wttr.in (public weather API)
+- Function node  
+- [openweathermap](https://openweathermap.org/api) (public weather API)
 
 ---
 
