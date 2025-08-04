@@ -1,6 +1,6 @@
 # n8n Automation: Weather Agent with LLM Integration
 
-This project showcases a simple automation workflow built using [n8n]([[https://n8n.io/](https://ebadr761.app.n8n.cloud/workflow/bJh3s9fS5NlDydwP)]), designed to act like an AI-powered assistant.
+This project showcases a simple automation workflow built using ([[https://n8n.io/](https://ebadr761.app.n8n.cloud/workflow/bJh3s9fS5NlDydwP)]), designed to act like an AI-powered assistant.
 
 The workflow takes a natural language question from the user—such as _“Do I need an umbrella in downtown Calgary?”_—and performs the following:
 
